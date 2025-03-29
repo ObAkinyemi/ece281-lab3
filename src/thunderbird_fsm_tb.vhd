@@ -57,28 +57,68 @@ end thunderbird_fsm_tb;
 architecture test_bench of thunderbird_fsm_tb is 
 	
 	component thunderbird_fsm is 
---	  port(
-		
---	  );
+        port(
+            i_left    :   in std_logic;
+            i_right   :   in std_logic;
+            i_reset   :   in std_logic;
+            i_clk     :   in std_logic;
+            o_lights_L:   out std_logic_vector(2 downto 0);
+            o_lights_R:   out std_logic_vector(2 downto 0)
+            );
 	end component thunderbird_fsm;
 
 	-- test I/O signals
-	
+	   signal w_left   : std_logic := '0';
+	   signal w_right  : std_logic := '0';
+	   signal w_clk    : std_logic := '0';
+	   signal w_reset  : std_logic := '0';
+	   
+	   signal w_lights_L : std_logic_vector(2 downto 0) := "000"; -- LC LB LA One hot
+	   signal w_lights_R : std_logic_vector(2 downto 0) := "000"; -- RA RB RC One Hot
+
 	-- constants
+	   constant k_clk_period : time := 10 ns;
 	
 	
 begin
 	-- PORT MAPS ----------------------------------------
-	
+	uut: thunderbird_fsm port map (
+	   i_left => w_left,
+	   i_right => w_right,
+	   i_clk => w_clk,
+	   i_reset => w_reset,
+	   o_lights_L(2) => w_lights_L(2), --LC
+	   o_lights_L(1) => w_lights_L(1), --LB
+	   o_lights_L(0) => w_lights_L(0), --LA
+	   o_lights_R(2) => w_lights_R(2), --RA
+	   o_lights_R(1) => w_lights_R(1), --RB
+	   o_lights_R(0) => w_lights_R(0)  --RC
+	   );
 	-----------------------------------------------------
 	
 	-- PROCESSES ----------------------------------------	
     -- Clock process ------------------------------------
-    
+    clk_proc : process
+    begin
+        w_clk <= '0';
+        wait for k_clk_period/2;
+        w_clk <= '1';
+        wait for k_clk_period/2;
+    end process;
 	-----------------------------------------------------
 	
 	-- Test Plan Process --------------------------------
-	
+	sim_proc : process
+	begin
+	   w_reset <= '1';
+	   wait until rising_edge(w_clk);
+	   wait for k_clk_period/2;
+	       assert w_lights_L = "000" report "bad reset" severity failure;
+	       assert w_lights_R = "000" report "bad reset" severity failure;
+	   w_reset <= '0';
+	   wait for k_clk_period*1;
+	   
+	end process;
 	-----------------------------------------------------	
 	
 end test_bench;
