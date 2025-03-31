@@ -147,12 +147,15 @@ begin
         assert w_lights_L = "001" report "LA should be lit" severity failure;
         wait until rising_edge(w_clk);
         wait for k_clk_pd * 3; -- LA stays on
+        
         assert w_lights_L = "011" report "LA LB should be lit" severity failure;
         wait until rising_edge(w_clk);
         wait for k_clk_pd *2; -- LA LB stays on
+        
         assert w_lights_L = "111" report "LA LB should be lit" severity failure;
         wait until rising_edge(w_clk);
         wait for k_clk_pd*1;
+        
         assert w_lights_L = "000" report "LA LB LC should be off" severity failure;
         wait until rising_edge(w_clk);
         wait for k_clk_pd;
@@ -161,19 +164,28 @@ begin
 -- Hazard Lights
         
         w_left <= '1'; w_right <= '1';
+        wait until rising_edge(w_clk);
         assert w_lights_L = "111" report "both sides on" severity failure;
         assert w_lights_R = "111" report "both sides on1" severity failure;
         wait until rising_edge(w_clk);
         
         w_left <= '0'; w_right <= '0';
+        wait until rising_edge(w_clk);
         assert w_lights_L = "000" report "both sides off" severity failure;
         assert w_lights_R = "000" report "both sides off1" severity failure;
         wait until rising_edge(w_clk);
 
         w_left <= '1'; w_right <= '1';
+        wait until rising_edge(w_clk);
         assert w_lights_L = "111" report "both sides on" severity failure;
         assert w_lights_R = "111" report "both sides on1" severity failure;
 
+        w_left <= '0'; w_right <= '0';
+        wait until rising_edge(w_clk);
+        assert w_lights_L = "000" report "both sides off" severity failure;
+        assert w_lights_R = "000" report "both sides off1" severity failure;
+        wait until rising_edge(w_clk);
+        
         wait;        
 	end process;
 	-----------------------------------------------------	
