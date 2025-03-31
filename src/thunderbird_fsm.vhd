@@ -112,7 +112,7 @@ architecture thunderbird_fsm_arch of thunderbird_fsm is
 
 -- CONSTANTS ------------------------------------------------------------------
     signal s_Q: std_logic_vector(7 downto 0) := "10000000"; -- default state off
-    SIGNAL s_Q_next: std_logic_vector(7 downto 0) := "1000000"; -- default state off
+    SIGNAL s_Q_next: std_logic_vector(7 downto 0) := "10000000"; -- default state off
 
 begin
 
@@ -144,7 +144,7 @@ begin
             if rising_edge(i_clk) then
                 if i_reset = '1' then
                     s_Q <= "10000000";
-                elsif rising_edge(i_clk) then
+                else
                     s_Q <= s_Q_next;
                 end if;
             end if;

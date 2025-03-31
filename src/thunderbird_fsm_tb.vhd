@@ -77,7 +77,7 @@ architecture test_bench of thunderbird_fsm_tb is
 	   signal w_lights_R : std_logic_vector(2 downto 0) := "000"; -- RA RB RC One Hot
 
 	-- constants
-	   constant k_clk_period : time := 10 ns;
+	   constant k_clk_pd : time := 10 ns;
 	
 	
 begin
@@ -101,9 +101,9 @@ begin
     clk_proc : process
     begin
         w_clk <= '0';
-        wait for k_clk_period/2;
+        wait for k_clk_pd/2;
         w_clk <= '1';
-        wait for k_clk_period/2;
+        wait for k_clk_pd/2;
     end process;
 	-----------------------------------------------------
 	
@@ -112,12 +112,69 @@ begin
 	begin
 	   w_reset <= '1';
 	   wait until rising_edge(w_clk);
-	   wait for k_clk_period/2;
+	   wait for k_clk_pd/2;
 	       assert w_lights_L = "000" report "bad reset" severity failure;
 	       assert w_lights_R = "000" report "bad reset" severity failure;
 	   w_reset <= '0';
-	   wait for k_clk_period*1;
+	   wait for k_clk_pd*1;
 	   
+-- Right 
+        w_right <= '0'; wait for k_clk_pd;
+        assert w_lights_R = "000" report "no right blinkers on" severity failure;
+
+-- right blinker button input pressed
+        w_right <= '1'; wait for k_clk_pd;
+        assert w_lights_R = "100" report "RA should be lit" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd * 3; -- RA stays on
+        assert w_lights_R = "110" report "RA RB should be lit" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd *2; -- RA RB stays on
+        assert w_lights_R = "111" report "RA RB RC should be lit" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd*1;
+        assert w_lights_R = "000" report "RA RB RC should be off" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd;
+        w_right <= '0';
+        
+-- Left
+        w_left <= '0'; wait for k_clk_pd;
+        assert w_lights_L = "000" report "no left blinkers on" severity failure;
+
+-- left blinker button input pressed
+        w_left <= '1'; wait for k_clk_pd;
+        assert w_lights_L = "001" report "LA should be lit" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd * 3; -- LA stays on
+        assert w_lights_L = "011" report "LA LB should be lit" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd *2; -- LA LB stays on
+        assert w_lights_L = "111" report "LA LB should be lit" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd*1;
+        assert w_lights_L = "000" report "LA LB LC should be off" severity failure;
+        wait until rising_edge(w_clk);
+        wait for k_clk_pd;
+        w_right <= '0';
+        
+-- Hazard Lights
+        
+        w_left <= '1'; w_right <= '1';
+        assert w_lights_L = "111" report "both sides on" severity failure;
+        assert w_lights_R = "111" report "both sides on1" severity failure;
+        wait until rising_edge(w_clk);
+        
+        w_left <= '0'; w_right <= '0';
+        assert w_lights_L = "000" report "both sides off" severity failure;
+        assert w_lights_R = "000" report "both sides off1" severity failure;
+        wait until rising_edge(w_clk);
+
+        w_left <= '1'; w_right <= '1';
+        assert w_lights_L = "111" report "both sides on" severity failure;
+        assert w_lights_R = "111" report "both sides on1" severity failure;
+
+        wait;        
 	end process;
 	-----------------------------------------------------	
 	
