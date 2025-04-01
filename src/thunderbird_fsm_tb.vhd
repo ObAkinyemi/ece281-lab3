@@ -112,11 +112,11 @@ begin
 	begin
 	   w_reset <= '1';
 	   wait until rising_edge(w_clk);
-	   wait for k_clk_pd/2;
+	   wait for k_clk_pd;
 	       assert w_lights_L = "000" report "bad reset" severity failure;
 	       assert w_lights_R = "000" report "bad reset" severity failure;
 	   w_reset <= '0';
-	   wait for k_clk_pd*1;
+	   wait for k_clk_pd;
 	   
 -- Right 
         w_right <= '0'; wait for k_clk_pd;
