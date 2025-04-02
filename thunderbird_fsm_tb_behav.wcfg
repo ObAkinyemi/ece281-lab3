@@ -11,12 +11,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="172.001 ns"></ZoomEndTime>
-      <Cursor1Time time="0.000 ns"></Cursor1Time>
+      <ZoomEndTime time="276.801 ns"></ZoomEndTime>
+      <Cursor1Time time="5.680 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="181"></NameColumnWidth>
-      <ValueColumnWidth column_width="142"></ValueColumnWidth>
+      <NameColumnWidth column_width="256"></NameColumnWidth>
+      <ValueColumnWidth column_width="149"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="9" />
    <wvobject fp_name="/thunderbird_fsm_tb/w_left" type="logic">
@@ -66,7 +66,7 @@
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[2]</obj_property>
          <obj_property name="ObjectShortName">[2]</obj_property>
-         <obj_property name="label">RA</obj_property>
+         <obj_property name="label">RC</obj_property>
       </wvobject>
       <wvobject fp_name="/thunderbird_fsm_tb/w_lights_R[1]" type="logic">
          <obj_property name="DisplayName">label</obj_property>
@@ -78,12 +78,12 @@
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[0]</obj_property>
          <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="label">RC</obj_property>
+         <obj_property name="label">RA</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="/thunderbird_fsm_tb/k_clk_pd" type="other">
-      <obj_property name="ElementShortName">k_clk_pd</obj_property>
-      <obj_property name="ObjectShortName">k_clk_pd</obj_property>
+   <wvobject fp_name="/thunderbird_fsm_tb/k_clk_period" type="other">
+      <obj_property name="ElementShortName">k_clk_period</obj_property>
+      <obj_property name="ObjectShortName">k_clk_period</obj_property>
    </wvobject>
    <wvobject fp_name="/thunderbird_fsm_tb/uut/s_Q" type="array">
       <obj_property name="ElementShortName">s_Q[7:0]</obj_property>
