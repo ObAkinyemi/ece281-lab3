@@ -75,23 +75,49 @@ entity top_basys3 is
                                                         -- led(2:0)   --> R
 		
 		-- Buttons (5 total)
-		--btnC	:	in	std_logic
-		--btnU	:	in	std_logic;
+		btnC	:	in	std_logic;
+		btnU	:	in	std_logic;
 		btnL	:	in	std_logic;                    -- clk_reset
-		btnR	:	in	std_logic	                  -- fsm_reset
-		--btnD	:	in	std_logic;	
+		btnR	:	in	std_logic;	                  -- fsm_reset
+		btnD	:	in	std_logic
 	);
 end top_basys3;
 
 architecture top_basys3_arch of top_basys3 is 
   
 	-- declare components
+	component thunderbird_fsm is
+	   port (
+	       i_left      : in std_logic;
+	       i_right     : in std_logic;
+	       i_reset     : in std_logic;
+	       i_clk       : in std_logic;
+	       o_lights_L  : out std_logic_vector(2 downto 0);
+	       o_lights_R  : out std_logic_vector(2 downto 0)
+	   );
+	end component thunderbird_fsm;
+	
+    component clock_divider is
+        generic ( constant k_DIV : natural := 2	); -- How many clk cycles until slow clock toggles
+                                                   -- Effectively, you divide the clk double this 
+                                                   -- number (e.g., k_DIV := 2 --> clock divider of 4)
+        port ( 	i_clk    : in std_logic;
+                i_reset  : in std_logic;		   -- asynchronous
+                o_clk    : out std_logic		   -- divided (slow) clock
+        );
+    end component clock_divider;
 
+    signal w_clk : std_logic;
   
 begin
 	-- PORT MAPS ----------------------------------------
 
-	
+	thunderbird_mappings : thunderbird_fsm port map (
+	   i_right => btnU,
+	   i_left => btnD,
+	   i_clk => w_clk,
+	   i_reset => btnR
+	);
 	
 	-- CONCURRENT STATEMENTS ----------------------------
 	

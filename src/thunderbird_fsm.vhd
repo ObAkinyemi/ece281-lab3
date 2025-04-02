@@ -133,9 +133,9 @@ begin
 	o_lights_L(2) <= s_Q(6) OR s_Q(0); -- LC
 	o_lights_L(1) <= s_Q(6) OR s_Q(1) OR s_Q(0); -- LB
 	o_lights_L(0) <= s_Q(6) OR s_Q(2) OR s_Q(1) OR s_Q(0); --LA
-	o_lights_R(2) <= s_Q(6) OR s_Q(5) OR s_Q(4) OR s_Q(3);
+	o_lights_R(0) <= s_Q(6) OR s_Q(5) OR s_Q(4) OR s_Q(3);
 	o_lights_R(1) <= s_Q(6) OR s_Q(4) OR s_Q(3);
-	o_lights_R(0) <= s_Q(6) OR s_Q(3);
+	o_lights_R(2) <= s_Q(6) OR s_Q(3);
 
 
 	-- PROCESSES --------------------------------------------------------------------
