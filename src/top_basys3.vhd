@@ -75,7 +75,7 @@ entity top_basys3 is
                                                         -- led(2:0)   --> R
 		
 		-- Buttons (5 total)
-		btnC	:	in	std_logic;
+--		btnC	:	in	std_logic;
 		btnU	:	in	std_logic;
 		btnL	:	in	std_logic;                    -- clk_reset
 		btnR	:	in	std_logic;	                  -- fsm_reset
@@ -116,9 +116,25 @@ begin
 	   i_right => btnU,
 	   i_left => btnD,
 	   i_clk => w_clk,
-	   i_reset => btnR
+	   i_reset => btnR,
+	   o_lights_L(2) => led(13),
+	   o_lights_L(1) => led(14),
+	   o_lights_L(0) => led(15),
+	   o_lights_R(0) => led(2),
+	   o_lights_R(1) => led(1),
+	   o_lights_R(2) => led(0)
+	   
 	);
 	
+--	clock divider port map
+    clkdiv_inst : clock_divider 		--instantiation of clock_divider to take 
+        generic map ( k_DIV => 50000000 ) -- 1 Hz clock from 100 MHz
+        port map (						  
+            i_clk   => clk,
+            i_reset => btnL,
+            o_clk   => w_clk
+    );  
+
 	-- CONCURRENT STATEMENTS ----------------------------
 	
 	-- ground unused LEDs
